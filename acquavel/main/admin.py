@@ -8,5 +8,3 @@ from .models import Plan, Socio, Contratacion, Ingreso
 admin.site.unregister(User)
 admin.site.unregister(Group)
 admin.site.register([Plan, Socio, Contratacion, Ingreso])
-
-
