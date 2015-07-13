@@ -1,14 +1,8 @@
-from django.shortcuts import render
 from rest_framework import generics
 from .serializers import SocioSerializer
 from models import Socio
 
 
-class SocioList(generics.ListCreateAPIView):
-    queryset = Socio.objects.all()
-    serializer_class = SocioSerializer
-
-
-class SocioDetail(generics.RetrieveUpdateDestroyAPIView):
+class SocioDetail(generics.RetrieveAPIView):
     queryset = Socio.objects.all()
     serializer_class = SocioSerializer
