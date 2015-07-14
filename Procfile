@@ -1,1 +1,1 @@
-web: gunicorn acquavel.wsgi --log-file -
+web: python acquavel/manage.py runserver 0.0.0.0:$PORT --noreload
