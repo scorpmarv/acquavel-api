@@ -25,7 +25,7 @@ SECRET_KEY = 'j52=4s&s*1ig5b^=+c6vkcgup0(^-!&p-@-dqwo6a@0y(nnhky'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['acquavel.herokuapp.com']
 
 
 # Application definition
