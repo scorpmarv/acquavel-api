@@ -124,3 +124,6 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
 }
+
+import dj_database_url
+DATABASES['default'] =  dj_database_url.config()
