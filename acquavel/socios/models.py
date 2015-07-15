@@ -30,7 +30,12 @@ class Contratacion(models.Model):
     class Meta:
         verbose_name_plural = 'Contrataciones'
 
+    def __unicode__(self):
+        return '{} - {} - {} - {}'.format(self.socio, self.plan, self.inicio, self.final)
+
 
 class Ingreso(models.Model):
     contratacion = models.ForeignKey(Contratacion)
     fecha = models.DateTimeField()
+
+
