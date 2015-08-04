@@ -36,6 +36,9 @@ class Contratacion(models.Model):
 
 class Ingreso(models.Model):
     contratacion = models.ForeignKey(Contratacion)
-    fecha = models.DateTimeField()
+    fecha = models.DateField()
+
+    def __unicode__(self):
+        return '{} - {}'.format(self.contratacion, self.fecha)
 
 
