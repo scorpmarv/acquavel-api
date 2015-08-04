@@ -5,7 +5,39 @@
 <script type="text/javascript">
     (function($) {
             $(document).ready(function() {
-                alert("Hi");
+                var timeout;
+                var contrataciones_list = [];
+                $(document).find("#id_contratacion").parent().append('<input id="prefilter">');
+                $(document).find("#id_contratacion").parent().append('<ul id="prefilterList"></ul>');
+                $(document).find("#id_contratacion").hide();
+
+                $(document).find("#id_contratacion option").each(function(){
+                    //console.log($(this).attr("value"));
+                    if ($(this).attr("value") != "") {
+                        var element = {"value": $(this).attr("value"),
+                            "dni": $.trim($(this).html().split("-")[0]),
+                            "string": $(this).html()};
+                        contrataciones_list.push(element);
+                    }
+                });
+
+                console.log(contrataciones_list);
+
+                $(document).find("#prefilter").keyup(function() {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(loadList, 2000);
+                });
+
+                function loadList(){
+                    $(document).find("#prefilterList").html('');
+                    var arg = $(document).find("#prefilter").val();
+                    $.each(contrataciones_list, function (key, val){
+                        if (val.dni.indexOf(arg) >= 0) {
+                            var li = '<li value="'+val.value+'">'+val.string+'</li>';
+                            $(document).find("#prefilterList").append(li);
+                        }
+                    });
+                }
             });
     })(jQuery);
 </script>
