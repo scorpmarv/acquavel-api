@@ -5,11 +5,32 @@
 <script type="text/javascript">
     (function($) {
             $(document).ready(function() {
-                var timeout;
+                var timeout, timeout2;
                 var contrataciones_list = [];
-                $(document).find("#id_contratacion").parent().append('<input id="prefilter">');
-                $(document).find("#id_contratacion").parent().append('<ul id="prefilterList"></ul>');
+                var today = new Date();
+                var yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+                today.day = today.getDate();
+                today.month = today.getMonth() + 1;
+                today.year = today.getFullYear();
+                yesterday.day = yesterday.getDate();
+                yesterday.month = yesterday.getMonth() + 1;
+                yesterday.year = yesterday.getFullYear();
+
+                $(document).find("#id_contratacion").parent().append('<div id="prefilter_div"><input type="text" id="prefilter"></div>');
+                $(document).find("#prefilter_div").append('<ul id="prefilterList"></ul>');
                 $(document).find("#id_contratacion").hide();
+                $(document).find("#id_fecha").attr('placeholder', 'YYYY-MM-DD');
+                $(document).find("#id_fecha").parent().append('<div id="quick_day"><span id="today">Hoy</span><span id="yesterday">Ayer</span></div>');
+
+
+                $(document).find('#quick_day').on('click', 'span', function (){
+                    if ($(this).prop('id') === "today") {
+                        $(document).find("#id_fecha").val(today.year + '-' + today.month + '-' + today.day);
+                    } else {
+                        $(document).find("#id_fecha").val(yesterday.year + '-' + yesterday.month + '-' + yesterday.day);
+                    }
+                });
 
                 $(document).find("#id_contratacion option").each(function(){
                     //console.log($(this).attr("value"));
@@ -21,31 +42,114 @@
                     }
                 });
 
-                console.log(contrataciones_list);
-
                 $(document).find("#prefilter").keyup(function() {
                     clearTimeout(timeout);
-                    timeout = setTimeout(loadList, 2000);
+                    timeout = setTimeout(loadList, 1000);
+                });
+
+                $(document).find("#prefilterList").on('click', 'li', function (){
+                    clearTimeout(timeout2);
+                    var value = $(this).attr("value");
+                    var dni = $.trim($(this).html().split("-")[0]);
+                    $(document).find("option[value="+value+"]").prop('selected',true);
+                    $(document).find("#prefilter").val(dni);
+                    $(document).find("#prefilterList").hide();
+                    console.log("clicked");
+                });
+
+                $(document).find("#prefilter").focusin(function (){
+                    clearTimeout(timeout2);
+                    if ($(document).find("#prefilterList li").length != 0){
+                        $(document).find("#prefilterList").show();
+                        console.log("show");
+                    }
+                });
+
+                $(document).find("#prefilter").focusout(function (){
+                    clearTimeout(timeout2);
+                    timeout2 = setTimeout(function (){
+                        $(document).find("#prefilterList").hide();
+                        console.log("hide");
+                    }, 500);
                 });
 
                 function loadList(){
                     $(document).find("#prefilterList").html('');
                     var arg = $(document).find("#prefilter").val();
-                    $.each(contrataciones_list, function (key, val){
-                        if (val.dni.indexOf(arg) >= 0) {
-                            var li = '<li value="'+val.value+'">'+val.string+'</li>';
-                            $(document).find("#prefilterList").append(li);
+                    if ($.trim(arg).length != 0) {
+                        $.each(contrataciones_list, function (key, val){
+                            if (val.dni.indexOf(arg) >= 0) {
+                                var li = '<li value="'+val.value+'">'+val.string+'</li>';
+                                $(document).find("#prefilterList").append(li);
+                            }
+                        });
+                        if ($(document).find("#prefilterList li").length != 0){
+                            $(document).find("#prefilterList").show();
+                        } else {
+                            $(document).find("#prefilterList").hide();
                         }
-                    });
+                    } else {
+                        $(document).find("#prefilterList").hide();
+                    }
                 }
             });
     })(jQuery);
 </script>
+<style>
+    #prefilter_div {
+        position: relative;
+        display: inline-block;
+    }
+    #prefilterList {
+        position: absolute;
+        margin: 0px;
+        width: auto;
+        padding: 0;
+        max-height: 200px;
+        overflow-y: scroll;
+        border: 1px solid grey;
+        background: white;
+        display: none;
+    }
+    #prefilterList li {
+        position: relative;
+        float: left;
+        width: 100%;
+        list-style: outside none none;
+        white-space: nowrap;
+        padding: 1px 0;
+    }
+    #prefilterList li:hover {
+        background-color: #F0F0F0;
+        cursor: pointer;
+    }
+    form p label {
+        width: 85px;
+        position: relative;
+        display: inline-block;
+    }
+    form p input {
+        text-align: center;
+    }
+    #quick_day {
+        position: relative;
+        display: inline-block;
+    }
+    #quick_day span {
+        color: #5B80B2;
+        text-decoration: none;
+        margin: 0 0 0 15px;
+    }
+    #quick_day span:hover {
+        color: #036;
+        cursor: pointer;
+    }
+</style>
 {{ media }}
 {% endblock %}
 {% block content %}
 <form action="" method="post">{% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Create" />
+    <input type="submit" value="Crear" />
 </form>
 {% endblock %}
