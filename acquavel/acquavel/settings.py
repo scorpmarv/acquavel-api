@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'j52=4s&s*1ig5b^=+c6vkcgup0(^-!&p-@-dqwo6a@0y(nnhky'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['acquavel.herokuapp.com']
 
