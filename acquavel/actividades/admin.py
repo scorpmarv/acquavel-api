@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Dia, Clase, DiaHorario
+from .models import Clase, DiaHorario
 
 
-admin.site.register([Dia, Clase, DiaHorario])
+admin.site.register([Clase, DiaHorario])

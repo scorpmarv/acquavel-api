@@ -3,7 +3,7 @@ from .models import DiaHorario, Clase
 
 
 class DiaHorarioSerializer(serializers.ModelSerializer):
-    dia = serializers.ReadOnlyField(source='dia.descripcion')
+    dia = serializers.ReadOnlyField(source='get_dia_display')
 
     class Meta:
         model = DiaHorario
