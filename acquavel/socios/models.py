@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 
 
@@ -7,7 +8,7 @@ class Plan(models.Model):
     cant_clases = models.PositiveIntegerField()
 
     class Meta:
-        verbose_name_plural = 'Planes'
+        verbose_name_plural = u'Planes'
 
     def __unicode__(self):
         return self.descripcion
@@ -16,6 +17,7 @@ class Plan(models.Model):
 class Socio(models.Model):
     dni = models.PositiveIntegerField(primary_key=True)
     planes = models.ManyToManyField(Plan, through='Contratacion')
+    rev_medica = models.DateField(blank=True, null=True, verbose_name=u'Revisación médica')
 
     def __unicode__(self):
         return str(self.dni)
@@ -28,10 +30,10 @@ class Contratacion(models.Model):
     final = models.DateField()
 
     class Meta:
-        verbose_name_plural = 'Contrataciones'
+        verbose_name_plural = u'Contrataciones'
 
     def __unicode__(self):
-        return '{} - {} - {} - {}'.format(self.socio, self.plan, self.inicio, self.final)
+        return u'{} - {} - {} - {}'.format(self.socio, self.plan, self.inicio, self.final)
 
 
 class Ingreso(models.Model):
@@ -39,6 +41,4 @@ class Ingreso(models.Model):
     fecha = models.DateField()
 
     def __unicode__(self):
-        return '{} - {}'.format(self.contratacion, self.fecha)
-
-
+        return u'{} - {}'.format(self.contratacion, self.fecha)

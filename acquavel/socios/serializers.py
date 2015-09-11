@@ -36,4 +36,4 @@ class SocioSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Socio
-        fields = ('dni', 'planes')
+        fields = ('dni', 'planes', 'rev_medica')
