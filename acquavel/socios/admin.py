@@ -7,8 +7,8 @@ from .models import Plan, Socio, Contratacion, Ingreso
 from .views import IngresoView
 
 
-admin.site.unregister(User)
-admin.site.unregister(Group)
+# admin.site.unregister(User)
+# admin.site.unregister(Group)
 admin.site.register([Plan, Socio])
 
 
