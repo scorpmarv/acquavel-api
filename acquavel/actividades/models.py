@@ -38,4 +38,4 @@ class Clase(models.Model):
     horarios = models.ManyToManyField(DiaHorario)
 
     def __unicode__(self):
-        return str(self.descripcion)
+        return self.descripcion
